@@ -28,4 +28,8 @@ class Comment extends Model
     public function comment(): BelongsTo {
         return $this->BelongsTo(Comment::class, 'parent_comment_id');
     }
+
+    public function replies(): HasMany {
+        return $this->HasMany(Comment::class, 'parent_comment_id');
+    }
 }
