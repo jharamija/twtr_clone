@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -11,7 +12,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $users = DB::table('posts')->get();
+        return response([
+            'posts' => $posts,
+        ], 200)->header('Access-Control-Allow-Origin', 'http://localhost:5173');
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -11,7 +13,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = DB::table('users')->get();
+        return response([
+            $users,
+        ], 200)->header('Access-Control-Allow-Origin', 'http://localhost:5173', 'Access-Control-Allow-Credentials', 'true');
     }
 
     /**
