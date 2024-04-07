@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -12,9 +13,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $users = DB::table('posts')->get();
+        $posts = DB::table('posts')->get();
         return response([
-            'posts' => $posts,
+            $posts->input('body'),
         ], 200)->header('Access-Control-Allow-Origin', 'http://localhost:5173');
     }
 
@@ -31,7 +32,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new Post();
+        $post->user_id = $request->input('UID');
+        $post->body = $request->input('body');
+        $post->likes = $request->input('likes');
+        $post->comments = 0;
+        $post->retweets = 0;
+        $post->save();
+
+        return response([
+            $request,
+        ], 200);
     }
 
     /**

@@ -11,8 +11,10 @@ Route::get('/', function () {
 Route::get('/test', function() {
     return response([
         'message' => 'Hello world',
-    ], 200)->header('Access-Control-Allow-Origin', 'http://localhost:5173', 'Access-Control-Allow-Credentials', 'true');
+    ], 200);//->header('Access-Control-Allow-Origin', 'http://localhost:5173', 'Access-Control-Allow-Credentials', 'true');
 });
+
+// Route::post('/users', UserController::class, 'store');
 
 Route::apiResource('users', UserController::class);
 

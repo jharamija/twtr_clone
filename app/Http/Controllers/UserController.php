@@ -32,7 +32,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $request->validate([
+        //     'name' => 'required|max:32',
+        //     'email' => 'required|email',
+        //     'password' => 'required|max:32',
+        // ]);
+
+        // User::create($request);
+
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = $request->input('password');
+        $user->followers = $request->input('followers');
+        $user->following = $request->input('following');
+        $user->save();
+
+        return response([
+            $request
+        ], 200);
+            // ->header('Access-Control-Allow-Origin', '*')
+            // ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+            // ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     }
 
     /**
