@@ -16,7 +16,7 @@ class PostController extends Controller
         $posts = DB::table('posts')->get();
         return response([
             $posts->input('body'),
-        ], 200)->header('Access-Control-Allow-Origin', 'http://localhost:5173');
+        ], 200);
     }
 
     /**
