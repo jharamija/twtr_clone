@@ -16,15 +16,14 @@ class LoginController extends Controller
 
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
-            // return redirect()->intended('/users/create');
             return response([
-                'redirect' => '/users/create',
+                'redirect' => '/posts/create',      // change to /home or whatever once it exists
             ]);
         }
 
         return response([
             'errors' => ['email' => 'Credentials do not match records'],
-            'redirect' => '/login',
+            'redirect' => '/posts/create',
         ], 401);
 
         // return back()->withErrors([

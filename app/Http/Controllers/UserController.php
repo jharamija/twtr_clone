@@ -37,11 +37,11 @@ class UserController extends Controller
      */
     public function store(Request $request)     // register/sign up
     {
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:users',
-        //     'password' => 'required|string|min:1',
-        // ]);
+        $request->validate([
+            'name' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:1',
+        ]);
 
         // User::create($request);
 
@@ -55,11 +55,9 @@ class UserController extends Controller
 
         Auth::login($user);
 
-        return redirect('dashboard');
-
-        // return response([
-        //     $request
-        // ], 200);
+        return response([
+            'redirect' => '/posts/create',
+        ], 200);
     }
 
     /**
@@ -68,7 +66,20 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::find($id);
+
+        // if($user){
+        //     return response()->json($user);
+        // }
+
+        // return response([
+        //     'error' => 'User not found',
+        // ] ,404);
+
+        return $user ? response()->json($user)
+            : response([
+                'error' => 'User not found',
+            ], 404);
     }
 
     /**
@@ -95,6 +106,19 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+        $email = $user->email;
+
+        if($user){
+            $user->delete();
+
+            return response([
+                'message' => 'User '.$email.' successfuly deleted.',
+            ]);
+        }
+
+        return response([
+            'error' => 'User not found',
+        ], 404);
     }
 }
