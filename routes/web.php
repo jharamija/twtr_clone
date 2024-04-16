@@ -17,22 +17,21 @@ Route::get('/test', function() {
     ], 200);
 });
 
-Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
-Route::apiResource('users', UserController::class);
-
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth',
 ], function ($router) {
-    // {app}/auth/logout -> token has to be in authorization header
+    Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
+    //  {app}/auth/...
+    Route::apiResource('users', UserController::class)->middleware('auth:api');
+    //  {app}/auth/logout -> token has to be in authorization header
     Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:api')->name('logout');
-    // {app}/auth/me -> token has to be in authorization header
+    //  {app}/auth/me -> token has to be in authorization header
     Route::post('/me', [LoginController::class, 'getAuthUser'])->middleware('auth:api')->name('getAuthUser');
-    // {app}/auth/refresh -> token has to be in authorization header
+    //  {app}/auth/refresh -> token has to be in authorization header
     Route::post('/refresh', [LoginController::class, 'refreshToken'])->middleware('auth:api')->name('refreshToken');
 });
 
 // Route::middleware(['auth', 'auth.session'])->group(function () {
-//     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 //     Route::apiResource('posts', PostController::class);
 // });

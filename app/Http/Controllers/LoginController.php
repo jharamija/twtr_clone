@@ -33,18 +33,18 @@ class LoginController extends Controller
     }
 
     public function getAuthUser(){
-        return response()->json(auth()->user());
+        return response()->json(auth('api')->user());
     }
 
     public function logout() {
 
-        auth()->logout();
+        auth('api')->logout();
 
         return response()->json(['message' => 'successfully logged out']);
     }
 
     public function refreshToken() {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(auth('api')->refresh());
     }
 
     protected function respondWithToken($token) {
@@ -52,6 +52,7 @@ class LoginController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60,
+            'user' => auth('api')->user(),
         ]);
     }
 }

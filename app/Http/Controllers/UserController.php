@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * GET - /users - users.index
+     * GET - /auth/users - users.index
      */
     public function index()
     {
@@ -24,7 +24,7 @@ class UserController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * GET - /users/create - users.create
+     * GET - /auth/users/create - users.create
      */
     public function create()
     {
@@ -33,7 +33,7 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * POST - /users - users.store
+     * POST - /auth/users - users.store
      */
     public function store(Request $request)     // register/sign up
     {
@@ -64,7 +64,7 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
-     * GET - /users/{user} - users.show
+     * GET - /auth/users/{user} - users.show
      */
     public function show(string $id)
     {
@@ -86,7 +86,7 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * GET - /users/{user}/edit - photos.edit
+     * GET - /auth/users/{user}/edit - photos.edit
      */
     public function edit(string $id)
     {
@@ -95,7 +95,7 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * PUT/PATCH - /photos/{photo} - photos.update
+     * PUT/PATCH - /auth/photos/{photo} - photos.update
      */
     public function update(Request $request, string $id)
     {
@@ -104,7 +104,7 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * DELETE - /photos/{photo} - photos.destroy
+     * DELETE - /auth/photos/{photo} - photos.destroy
      */
     public function destroy(string $id)
     {
