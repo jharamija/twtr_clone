@@ -2,41 +2,56 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class LoginController extends Controller
 {
-    public function authenticate(Request $request){//}: RedirectResponse{
-        $credentials = $request->validate([
+    public function authenticate(Request $request) {
+        $validator = Validator::make(request()->all(), [
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        if(Auth::attempt($credentials)){
-            $request->session()->regenerate();
-            return response([
-                'redirect' => '/posts/create',      // change to /home or whatever once it exists
-            ]);
+        if($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
         }
 
-        return response([
-            'errors' => ['email' => 'Credentials do not match records'],
-            'redirect' => '/posts/create',
-        ], 401);
+        $credentials = request(['email', 'password']);
 
-        // return back()->withErrors([
-        //     'email' => 'Credentials do not match records',
-        // ])->onlyInput('email');
+        $token = auth('api')->attempt($credentials);
+
+        if($token === false) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
     }
 
-    public function logout(Request $request): RedirectResponse{
-        Auth::logout();
-        
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        
-        return redirect('/login');
+    public function getAuthUser(){
+        return response()->json(auth()->user());
+    }
+
+    public function logout() {
+
+        auth()->logout();
+
+        return response()->json(['message' => 'successfully logged out']);
+    }
+
+    public function refreshToken() {
+        return $this->respondWithToken(auth()->refresh());
+    }
+
+    protected function respondWithToken($token) {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * 60,
+        ]);
     }
 }

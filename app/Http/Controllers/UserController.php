@@ -53,11 +53,13 @@ class UserController extends Controller
         $user->following = 0;
         $user->save();
 
-        Auth::login($user);
+        return response()->json($user, 201);
 
-        return response([
-            'redirect' => '/posts/create',
-        ], 200);
+        // Auth::login($user);
+
+        // return response([
+        //     'redirect' => '/posts/create',
+        // ], 200);
     }
 
     /**
