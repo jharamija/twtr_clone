@@ -14,9 +14,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = DB::table('posts')->get();
-        return response([
-            $posts->input('body'),
-        ], 200);
+        return response()->json($posts);
     }
 
     /**
@@ -35,7 +33,7 @@ class PostController extends Controller
         $post = new Post();
         $post->user_id = $request->input('UID');
         $post->body = $request->input('body');
-        $post->likes = $request->input('likes');
+        $post->likes = 0;
         $post->comments = 0;
         $post->retweets = 0;
         $post->save();

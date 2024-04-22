@@ -17,6 +17,8 @@ Route::get('/test', function() {
     ], 200);
 });
 
+Route::apiResource('users', UserController::class)->only('store');
+
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth',
@@ -31,6 +33,8 @@ Route::group([
     //  {app}/auth/refresh -> token has to be in authorization header
     Route::post('/refresh', [LoginController::class, 'refreshToken'])->middleware('auth:api')->name('refreshToken');
 });
+
+Route::apiResource('posts', PostController::class);
 
 // Route::middleware(['auth', 'auth.session'])->group(function () {
 //     Route::apiResource('posts', PostController::class);
