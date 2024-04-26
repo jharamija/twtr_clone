@@ -13,7 +13,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = DB::table('posts')->get();
+        // $posts = Post::with('user')->get();
+        // $posts = DB::table('posts')->get();
+        $posts = Post::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->get();
+
         return response()->json($posts);
     }
 
