@@ -35,6 +35,8 @@ Route::group([
 });
 
 Route::apiResource('posts', PostController::class);
+// return all posts from a single user, takes user_id
+Route::get('user/{id}/posts', [PostController::class, 'getUserPosts'])->name('getUserPosts');
 
 // Route::middleware(['auth', 'auth.session'])->group(function () {
 //     Route::apiResource('posts', PostController::class);

@@ -9,6 +9,16 @@ use App\Models\Post;
 class PostController extends Controller
 {
     /**
+     * Return all posts from a single user.
+     */
+    public function getUserPosts($UID)
+    {
+        $userPosts = Post::where('user_id', $UID)->get();
+
+        return response()->json($userPosts);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
